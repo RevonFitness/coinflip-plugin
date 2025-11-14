@@ -1,0 +1,12 @@
+name: CoinFlip
+version: '1.0.0'
+main: com.dethfromabove.coinflip.CoinFlip
+api-version: '1.21'
+author: Dethfromabove
+description: A simple coin flip plugin
+
+commands:
+  coinflip:
+    description: Flip a coin
+    usage: /coinflip
+    aliases: [cf, flip]
