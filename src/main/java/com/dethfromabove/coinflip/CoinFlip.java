@@ -1,19 +1,63 @@
 package com.dethfromabove.coinflip;
 
+import com.dethfromabove.coinflip.commands.CoinFlipCommand;
+import com.dethfromabove.coinflip.managers.GameManager;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CoinFlip extends JavaPlugin {
 
+    private Economy economy;
+    private GameManager gameManager;
+
     @Override
     public void onEnable() {
-        // Register the command
-        this.getCommand("coinflip").setExecutor(new CoinFlipCommand());
+        // Save default config
+        saveDefaultConfig();
         
-        getLogger().info("CoinFlip plugin has been enabled!");
+        // Setup Vault economy
+        if (!setupEconomy()) {
+            getLogger().severe("Vault not found! This plugin requires Vault and an economy plugin.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        
+        // Initialize managers
+        gameManager = new GameManager(this);
+        
+        // Register commands
+        getCommand("coinflip").setExecutor(new CoinFlipCommand(this));
+        
+        getLogger().info("CoinFlip plugin v2.0.0 has been enabled!");
     }
 
     @Override
     public void onDisable() {
+        // Cancel all active games and refund money
+        if (gameManager != null) {
+            gameManager.cancelAllGames();
+        }
         getLogger().info("CoinFlip plugin has been disabled!");
+    }
+    
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
+    }
+    
+    public Economy getEconomy() {
+        return economy;
+    }
+    
+    public GameManager getGameManager() {
+        return gameManager;
     }
 }

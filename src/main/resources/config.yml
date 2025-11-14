@@ -1,0 +1,32 @@
+# CoinFlip Configuration
+# Created by dethfromabove
+
+# Betting limits
+min-bet: 100.0
+max-bet: 10000.0
+
+# Game settings
+game-expire-time: 300 # Time in seconds before a game expires (5 minutes)
+animation-enabled: true
+animation-duration: 40 # In ticks (40 = 2 seconds)
+
+# Tax settings
+tax-enabled: false
+tax-percentage: 5.0 # Percentage taken from winnings (0-100)
+
+# Messages
+messages:
+  prefix: "&6&l[CoinFlip] &r"
+  insufficient-funds: "&cYou don't have enough money! You need ${amount}"
+  bet-too-low: "&cMinimum bet is ${min}"
+  bet-too-high: "&cMaximum bet is ${max}"
+  game-created: "&aYou created a coinflip for &6${amount}&a!"
+  game-accepted: "&aYou accepted {player}'s coinflip for &6${amount}&a!"
+  you-won: "&a&l✔ YOU WON! &a+${amount}"
+  you-lost: "&c&l✖ YOU LOST! &c-${amount}"
+  game-cancelled: "&eYour coinflip has been cancelled. Money refunded."
+  no-active-game: "&cYou don't have an active coinflip!"
+  already-has-game: "&cYou already have an active coinflip!"
+  cannot-accept-own: "&cYou can't accept your own coinflip!"
+  no-games-available: "&cNo coinflips available!"
+  game-expired: "&cThat coinflip has expired!"

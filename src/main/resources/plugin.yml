@@ -1,12 +1,21 @@
 name: CoinFlip
-version: '1.0.0'
+version: '2.0.0'
 main: com.dethfromabove.coinflip.CoinFlip
 api-version: '1.21'
-author: Dethfromabove
-description: A simple coin flip plugin
+author: dethfromabove
+description: A PvP coin flip gambling plugin with configurable betting
+softdepend: [Vault]
 
 commands:
   coinflip:
-    description: Flip a coin
-    usage: /coinflip
+    description: Main coinflip command
+    usage: /coinflip <create|accept|list|cancel> [amount]
     aliases: [cf, flip]
+    
+permissions:
+  coinflip.use:
+    description: Allows using the coinflip plugin
+    default: true
+  coinflip.admin:
+    description: Admin commands for coinflip
+    default: op
