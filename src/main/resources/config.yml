@@ -1,7 +1,6 @@
 # CoinFlip Configuration
 # Created by dethfromabove
 
-# Betting limits
 min-bet: 100.0
 max-bet: 10000.0
 
