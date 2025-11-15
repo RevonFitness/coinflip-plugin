@@ -13,20 +13,16 @@ public class CoinFlip extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Save default config
         saveDefaultConfig();
         
-        // Setup Vault economy
         if (!setupEconomy()) {
             getLogger().severe("Vault not found! This plugin requires Vault and an economy plugin.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
         
-        // Initialize managers
         gameManager = new GameManager(this);
         
-        // Register commands
         getCommand("coinflip").setExecutor(new CoinFlipCommand(this));
         
         getLogger().info("CoinFlip plugin v2.0.0 has been enabled!");
@@ -34,7 +30,6 @@ public class CoinFlip extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Cancel all active games and refund money
         if (gameManager != null) {
             gameManager.cancelAllGames();
         }

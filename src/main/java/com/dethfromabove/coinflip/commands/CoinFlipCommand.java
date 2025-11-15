@@ -63,10 +63,6 @@ public class CoinFlipCommand implements CommandExecutor, TabCompleter {
             case "cancel":
                 handleCancel(player);
                 break;
-            // case "solo":
-            // case "s":
-            //     handleSolo(player, args);
-            //     break;
             default:
                 sendHelpMessage(player);
                 break;
@@ -117,68 +113,13 @@ public class CoinFlipCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        // Withdraw money
         plugin.getEconomy().withdrawPlayer(player, amount);
 
-        // Create game
         plugin.getGameManager().createGame(player, amount);
 
         player.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") + 
             plugin.getConfig().getString("messages.game-created").replace("{amount}", String.valueOf(amount))));
     }
-
-    // private void handleSolo(Player player, String[] args) {
-    //     if (args.length < 2) {
-    //         player.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") +
-    //                 "&cUsage: /cf solo <amount>"));
-    //         return;
-    //     }
-
-    //     double amount;
-    //     try {
-    //         amount = Double.parseDouble(args[1]);
-    //     } catch (NumberFormatException e) {
-    //         player.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") + "&cInvalid amount!"));
-    //         return;
-    //     }
-
-    //     double minBet = plugin.getConfig().getDouble("min-bet");
-    //     double maxBet = plugin.getConfig().getDouble("max-bet");
-
-    //     if (amount < minBet) {
-    //         player.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") +
-    //                 plugin.getConfig().getString("messages.bet-too-low").replace("{min}", String.valueOf(minBet))));
-    //         return;
-    //     }
-
-    //     if (amount > maxBet) {
-    //         player.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") +
-    //                 plugin.getConfig().getString("messages.bet-too-high").replace("{max}", String.valueOf(maxBet))));
-    //         return;
-    //     }
-
-    //     if (plugin.getEconomy().getBalance(player) < amount) {
-    //         player.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") +
-    //                 plugin.getConfig().getString("messages.insufficient-funds")
-    //                         .replace("{amount}", String.valueOf(amount))));
-    //         return;
-    //     }
-
-    //     // Withdraw the bet
-    //     plugin.getEconomy().withdrawPlayer(player, amount);
-
-    //     // Create a solo game instance
-    //     CoinFlipGame game = new CoinFlipGame(player, amount);
-
-    //     // Mark that player is both creator AND acceptor
-    //     game.setAcceptor(player);
-
-    //     player.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") +
-    //             "&eStarting a solo coinflip for &6$" + amount + "&e!"));
-
-    //     // Reuse the same animation system
-    //     CoinFlipAnimator.startGame(plugin, game, player, player);
-    // }
 
     private void handleAccept(Player player, String[] args) {
         if (args.length < 2) {
@@ -200,8 +141,6 @@ public class CoinFlipCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") + "&cPlayer not found!"));
             return;
         }
-
-        // Removed self-flip check - now you can flip with yourself for testing!
 
         CoinFlipGame game = plugin.getGameManager().getGame(target);
         if (game == null) {
@@ -226,13 +165,10 @@ public class CoinFlipCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        // Withdraw money from acceptor
         plugin.getEconomy().withdrawPlayer(player, amount);
 
-        // Set acceptor
         game.setAcceptor(player);
 
-        // Send messages
         player.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") + 
             plugin.getConfig().getString("messages.game-accepted")
                 .replace("{player}", target.getName())
@@ -241,7 +177,6 @@ public class CoinFlipCommand implements CommandExecutor, TabCompleter {
         target.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") + 
             "&e" + player.getName() + " accepted your coinflip for &6$" + amount + "&e!"));
 
-        // Start the game with animation
         CoinFlipAnimator.startGame(plugin, game, target, player);
     }
 

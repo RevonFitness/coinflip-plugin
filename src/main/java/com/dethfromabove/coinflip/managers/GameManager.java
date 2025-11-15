@@ -11,15 +11,14 @@ import java.util.stream.Collectors;
 public class GameManager {
     
     private final CoinFlip plugin;
-    private final Map<UUID, CoinFlipGame> activeGames; // Player UUID -> Game
-    private final Map<UUID, CoinFlipGame> allGames; // Game UUID -> Game
+    private final Map<UUID, CoinFlipGame> activeGames;
+    private final Map<UUID, CoinFlipGame> allGames;
     
     public GameManager(CoinFlip plugin) {
         this.plugin = plugin;
         this.activeGames = new HashMap<>();
         this.allGames = new HashMap<>();
         
-        // Start cleanup task for expired games
         startCleanupTask();
     }
     
@@ -101,6 +100,6 @@ public class GameManager {
                 }
                 removeGame(game);
             }
-        }, 20L * 60L, 20L * 60L); // Check every minute
+        }, 20L * 60L, 20L * 60L);
     }
 }

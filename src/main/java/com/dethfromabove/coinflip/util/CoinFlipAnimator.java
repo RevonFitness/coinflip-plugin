@@ -22,19 +22,15 @@ public class CoinFlipAnimator {
         int animationDuration = plugin.getConfig().getInt("animation-duration", 40);
 
         if (!animationEnabled) {
-            // Skip animation, decide winner immediately
             decideWinner(plugin, game, creator, acceptor);
             return;
         }
 
-        // Send initial message
         creator.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") + "&eFlipping coin..."));
         acceptor.sendMessage(colorize(plugin.getConfig().getString("messages.prefix") + "&eFlipping coin..."));
 
-        // Animation frames
         String[] frames = {"◐", "◓", "◑", "◒", "◐", "◓", "◑", "◒"};
 
-        // Show spinning animation
         for (int i = 0; i < frames.length; i++) {
             final int index = i;
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
@@ -56,7 +52,6 @@ public class CoinFlipAnimator {
             }, i * 5L);
         }
 
-        // Decide winner after animation
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             decideWinner(plugin, game, creator, acceptor);
         }, animationDuration);
@@ -70,7 +65,6 @@ public class CoinFlipAnimator {
         double amount = game.getAmount();
         double totalPot = amount * 2;
 
-        // Calculate tax if enabled
         boolean taxEnabled = plugin.getConfig().getBoolean("tax-enabled", false);
         double taxPercentage = plugin.getConfig().getDouble("tax-percentage", 5.0);
         double taxAmount = 0;
@@ -81,13 +75,10 @@ public class CoinFlipAnimator {
             payout = totalPot - taxAmount;
         }
 
-        // Give winnings to winner
         plugin.getEconomy().depositPlayer(winner, payout);
 
-        // Show results
         showResult(plugin, winner, loser, amount, payout, taxAmount, creatorWins);
 
-        // Remove game
         plugin.getGameManager().removeGame(game);
     }
 
@@ -96,7 +87,6 @@ public class CoinFlipAnimator {
         NamedTextColor color = creatorWon ? NamedTextColor.GOLD : NamedTextColor.GRAY;
         String emoji = creatorWon ? "👑" : "⚪";
 
-        // Winner messages
         Component winTitle = Component.text("YOU WON!", NamedTextColor.GREEN, TextDecoration.BOLD);
         Component winSubtitle = Component.text(emoji + " " + result + " " + emoji, color)
                 .append(Component.text(" +$" + String.format("%.2f", payout), NamedTextColor.GOLD));
@@ -118,7 +108,6 @@ public class CoinFlipAnimator {
                 "&7(Tax: &c-$" + String.format("%.2f", tax) + "&7)"));
         }
 
-        // Loser messages
         Component loseTitle = Component.text("YOU LOST!", NamedTextColor.RED, TextDecoration.BOLD);
         Component loseSubtitle = Component.text(emoji + " " + result + " " + emoji, color)
                 .append(Component.text(" -$" + String.format("%.2f", betAmount), NamedTextColor.RED));
