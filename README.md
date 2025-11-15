@@ -28,6 +28,6 @@ Minecraft Version: 1.21.8
 
 Works alongside any Vault-compatible economy plugin.
 
-💬 Need help?:
+Need help?:
 
 If something isn’t working right or you want a new feature added, open an issue or reach out. Happy flipping!
